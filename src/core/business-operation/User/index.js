@@ -1,5 +1,6 @@
 const md5 = require('md5');
 const uuid = require('uuid').v4;
+const momentTz = require('moment-timezone');
 const { userRepository } = require('../../repository');
 const responseTransformer = require('../../../utils/responseTransformer');
 const { createJWTToken } = require('../../../auth');
@@ -20,6 +21,8 @@ const createUser = async (input) => {
       username: input.username,
       password: md5(input.password),
       email: input.email,
+      createdAt: momentTz().utc(),
+      updatedAt: momentTz().utc(),
     };
 
     const response = await userRepository.createUser(params);

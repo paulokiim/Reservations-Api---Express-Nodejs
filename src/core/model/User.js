@@ -19,10 +19,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         field: 'email',
       },
+      createdAt: {
+        type: DataTypes.DATE,
+        field: 'created_at',
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        field: 'updated_at',
+      },
     },
     {
-      createdAt: 'created_at',
-      updatedAt: 'updated_at',
       tableName: 'users',
       schema: 'teste',
     }

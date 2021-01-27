@@ -21,7 +21,14 @@ const checkOverlap = (params) => {
   });
 };
 
+const getReservation = (params) => {
+  return Reservation.findOne({ where: params });
+};
+
+const cancelReservation = (params) => Reservation.update();
+
 module.exports = {
   createReservation,
   checkOverlap,
+  getReservation,
 };

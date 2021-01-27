@@ -1,4 +1,5 @@
 const uuid = require('uuid').v4;
+const momentTz = require('moment-timezone');
 const { hotelRepository } = require('../../repository');
 const responseTransformer = require('../../../utils/responseTransformer');
 
@@ -20,6 +21,8 @@ const createHotel = async (input) => {
       country: input.country,
       city: input.city,
       address: input.address,
+      createdAt: momentTz().utc(),
+      updatedAt: momentTz().utc(),
     };
 
     const response = await hotelRepository.createHotel(params);

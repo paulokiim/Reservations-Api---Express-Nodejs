@@ -24,6 +24,9 @@ const createReservation = async (input) => {
       hotelUid: input.hotelUid,
       fromDate: momentTz(input.fromDate).utc(),
       toDate: momentTz(input.toDate).utc(),
+      active: true,
+      createdAt: momentTz().utc(),
+      updatedAt: momentTz().utc(),
     };
 
     const response = await reservationRepository.createReservation(params);
@@ -32,6 +35,25 @@ const createReservation = async (input) => {
   return responseTransformer.onError('Reservas conflitantes');
 };
 
+/* cancelReservation
+1- Get the reservation it self
+2- Modify attribute "active" to false
+*/
+const cancelReservation = async (input) => {
+  const params = {
+    userUid: input.userUid,
+    hotelUid: input.hotelUid,
+    fromDate: momentTz(input.fromDate).utc(),
+    toDate: momentTz(input.toDate).utc(),
+  };
+
+  const reservation = await reservationRepository.getReservation(params);
+
+  if (!reservation)
+    return responseTransformer.onError('Essa reserva nao existe');
+};
+
 module.exports = {
   createReservation,
+  cancelReservation,
 };

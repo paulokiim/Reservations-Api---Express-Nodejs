@@ -23,10 +23,20 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         field: 'to_date',
       },
+      active: {
+        type: DataTypes.BOOLEAN,
+        field: 'active',
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        field: 'created_at',
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        field: 'updated_at',
+      },
     },
     {
-      createdAt: 'created_at',
-      updatedAt: 'updated_at',
       tableName: 'reservations',
       schema: 'teste',
     }
