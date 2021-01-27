@@ -38,19 +38,38 @@ const createReservation = async (input) => {
 /* cancelReservation
 1- Get the reservation it self
 2- Modify attribute "active" to false
+3- Check how many rows were affected
+4- Return new object
 */
 const cancelReservation = async (input) => {
-  const params = {
+  const whereParams = {
     userUid: input.userUid,
     hotelUid: input.hotelUid,
     fromDate: momentTz(input.fromDate).utc(),
     toDate: momentTz(input.toDate).utc(),
+    active: true,
   };
 
-  const reservation = await reservationRepository.getReservation(params);
+  const reservation = await reservationRepository.getReservation(whereParams);
 
   if (!reservation)
-    return responseTransformer.onError('Essa reserva nao existe');
+    return responseTransformer.onError('Essa reserva nao foi encontrada');
+
+  const cancelParams = {
+    active: false,
+    updatedAt: momentTz().utc(),
+  };
+
+  const response = await reservationRepository.cancelReservation(
+    cancelParams,
+    whereParams
+  );
+
+  const [rowsUpdated, [updatedBook]] = response;
+  if (rowsUpdated > 0) return responseTransformer.onSuccess(updatedBook);
+  return responseTransformer.onError(
+    'Ocorreu algum erro ao cancelar a reserva'
+  );
 };
 
 module.exports = {

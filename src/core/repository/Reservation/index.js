@@ -25,10 +25,12 @@ const getReservation = (params) => {
   return Reservation.findOne({ where: params });
 };
 
-const cancelReservation = (params) => Reservation.update();
+const cancelReservation = (params, whereParams) =>
+  Reservation.update(params, { where: whereParams, returning: true });
 
 module.exports = {
   createReservation,
   checkOverlap,
   getReservation,
+  cancelReservation,
 };

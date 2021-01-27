@@ -10,4 +10,10 @@ routes.post(
   reservationController.createReservation
 );
 
+routes.put(
+  '/cancel',
+  checkAuthentication,
+  reservationController.cancelReservation
+);
+
 module.exports = routes;
