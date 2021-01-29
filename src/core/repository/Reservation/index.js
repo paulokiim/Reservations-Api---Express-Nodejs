@@ -3,14 +3,14 @@ const models = require('../../model');
 const { Reservation } = models;
 const { Op } = models.Sequelize;
 
-const createReservation = (params) => {
+const create = (params) => {
 	return Reservation.create(params);
 };
 
 const checkOverlap = (params) => {
 	return Reservation.findAll({
 		where: {
-			hotelUid: params.hotelUid,
+			...params,
 			fromDate: {
 				[Op.gte]: params.fromDate,
 			},
@@ -21,16 +21,16 @@ const checkOverlap = (params) => {
 	});
 };
 
-const getReservation = (params) => {
+const get = (params) => {
 	return Reservation.findOne({ where: params });
 };
 
-const cancelReservation = (params, whereParams) =>
+const cancel = (params, whereParams) =>
 	Reservation.update(params, { where: whereParams, returning: true });
 
 module.exports = {
-	createReservation,
+	create,
 	checkOverlap,
-	getReservation,
-	cancelReservation,
+	get,
+	cancel,
 };

@@ -1,30 +1,30 @@
 const { reservationBO } = require('../../core/business-operation');
 
-const createReservation = async (req, res) => {
+const create = async (req, res) => {
 	const body = req.body;
 
 	try {
-		const response = await reservationBO.createReservation(body);
+		const response = await reservationBO.create(body);
 
-		return res.status(response.status).send(response.data);
+		return res.status(response.status).send(response);
 	} catch (error) {
 		return res.status(500).send('Erro Interno');
 	}
 };
 
-const cancelReservation = async (req, res) => {
+const cancel = async (req, res) => {
 	const body = req.body;
 
 	try {
-		const response = await reservationBO.cancelReservation(body);
+		const response = await reservationBO.cancel(body);
 
-		return res.status(response.status).send(response.data);
+		return res.status(response.status).send(response);
 	} catch (error) {
 		return res.status(500).send('Erro Interno');
 	}
 };
 
 module.exports = {
-	createReservation,
-	cancelReservation,
+	create,
+	cancel,
 };

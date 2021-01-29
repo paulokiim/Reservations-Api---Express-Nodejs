@@ -4,15 +4,15 @@ const { userRepository } = require('../../repository');
 const responseTransformer = require('../../../utils/responseTransformer');
 const { createJWTToken } = require('../../../auth');
 
-/* createUser
+/* create
 1- Check if user exists on database
 2- If not, create a new
 3- If so, return error
 */
-const createUser = async (input) => {
+const create = async (input) => {
 	const checkUser = { username: input.username };
 
-	const userExists = await userRepository.getUser(checkUser);
+	const userExists = await userRepository.get(checkUser);
 
 	if (!userExists) {
 		const params = {
@@ -22,22 +22,22 @@ const createUser = async (input) => {
 			email: input.email,
 		};
 
-		const response = await userRepository.createUser(params);
+		const response = await userRepository.create(params);
 		return responseTransformer.onSuccess(response);
 	}
 	return responseTransformer.onError('Usuario existente');
 };
 
-/* loginUser
+/* login
 1- Check if user exists on database
 2- If not, return error
 3- If so, create a token for this userUid
 3.1 - Return response with token
 */
-const loginUser = async (input) => {
+const login = async (input) => {
 	const checkUser = { username: input.username };
 
-	const userExists = await userRepository.getUser(checkUser);
+	const userExists = await userRepository.get(checkUser);
 
 	if (userExists) {
 		const params = {
@@ -45,7 +45,7 @@ const loginUser = async (input) => {
 			password: md5(input.password),
 		};
 
-		const user = await userRepository.getUser(params);
+		const user = await userRepository.get(params);
 		if (!user) {
 			return responseTransformer.onError('Usuario ou Senha incorreta');
 		}
@@ -63,6 +63,6 @@ const loginUser = async (input) => {
 };
 
 module.exports = {
-	createUser,
-	loginUser,
+	create,
+	login,
 };

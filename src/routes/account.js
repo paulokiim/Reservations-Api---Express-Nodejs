@@ -3,7 +3,7 @@ const { userController } = require('../controllers');
 
 const routes = express.Router();
 
-routes.post('/register', userController.createUser);
-routes.get('/login', userController.loginUser);
+routes.post('/register', userController.create);
+routes.get('/login', userController.login);
 
 module.exports = routes;

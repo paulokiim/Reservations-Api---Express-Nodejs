@@ -7,10 +7,10 @@ const responseTransformer = require('../../../utils/responseTransformer');
 2- If not, create a new
 3- If so, return error
 */
-const createHotel = async (input) => {
+const create = async (input) => {
 	const checkHotel = { hotelName: input.hotelName };
 
-	const hotelExists = await hotelRepository.getHotel(checkHotel);
+	const hotelExists = await hotelRepository.get(checkHotel);
 
 	if (!hotelExists) {
 		const params = {
@@ -22,12 +22,17 @@ const createHotel = async (input) => {
 			address: input.address,
 		};
 
-		const response = await hotelRepository.createHotel(params);
+		const response = await hotelRepository.create(params);
 		return responseTransformer.onSuccess(response);
 	}
 	return responseTransformer.onError('Hotel existente');
 };
 
+const getAll = async (input) => {
+	const a = 0;
+};
+
 module.exports = {
-	createHotel,
+	create,
+	getAll,
 };

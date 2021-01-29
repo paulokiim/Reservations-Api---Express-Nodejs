@@ -2,15 +2,19 @@ const models = require('../../model');
 
 const { Hotel } = models;
 
-const createHotel = (params) => {
+const create = (params) => {
 	return Hotel.create(params);
 };
 
-const getHotel = (params) => {
+const get = (params) => {
 	return Hotel.findOne({ where: params });
 };
 
+const getAll = (params) => {
+	return Hotel.findAll({ where: params });
+};
+
 module.exports = {
-	createHotel,
-	getHotel,
+	create,
+	get,
 };

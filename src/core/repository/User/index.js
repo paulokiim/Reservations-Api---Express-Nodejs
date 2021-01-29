@@ -2,15 +2,15 @@ const models = require('../../model');
 
 const { User } = models;
 
-const createUser = (params) => {
+const create = (params) => {
 	return User.create(params);
 };
 
-const getUser = (params) => {
+const get = (params) => {
 	return User.findOne({ where: params });
 };
 
 module.exports = {
-	createUser,
-	getUser,
+	create,
+	get,
 };
