@@ -3,6 +3,6 @@ const { hotelController } = require('../controllers');
 
 const routes = express.Router();
 
-routes.post('/register', hotelController.createHotel);
+routes.post('/new', hotelController.createHotel);
 
 module.exports = routes;

@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		{
 			tableName: 'reservations',
-			schema: 'teste',
+			schema: 'public',
 		}
 	);
 

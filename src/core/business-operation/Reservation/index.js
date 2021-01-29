@@ -9,30 +9,28 @@ const responseTransformer = require('../../../utils/responseTransformer');
 3- If so, return error
 */
 const createReservation = async (input) => {
-  const checkReservation = {
-    hotelUid: input.hotelUid,
-    fromDate: momentTz(input.fromDate).utc(),
-    toDate: momentTz(input.toDate).utc(),
-  };
+	const checkReservation = {
+		hotelUid: input.hotelUid,
+		fromDate: momentTz(input.fromDate).utc(),
+		toDate: momentTz(input.toDate).utc(),
+	};
 
-  const overlapped = await reservationRepository.checkOverlap(checkReservation);
+	const overlapped = await reservationRepository.checkOverlap(checkReservation);
 
-  if (overlapped.length === 0) {
-    const params = {
-      reservationUid: uuid(),
-      userUid: input.userUid,
-      hotelUid: input.hotelUid,
-      fromDate: momentTz(input.fromDate).utc(),
-      toDate: momentTz(input.toDate).utc(),
-      active: true,
-      createdAt: momentTz().utc(),
-      updatedAt: momentTz().utc(),
-    };
+	if (overlapped.length === 0) {
+		const params = {
+			reservationUid: uuid(),
+			userUid: input.userUid,
+			hotelUid: input.hotelUid,
+			fromDate: momentTz(input.fromDate).utc(),
+			toDate: momentTz(input.toDate).utc(),
+			active: true,
+		};
 
-    const response = await reservationRepository.createReservation(params);
-    return responseTransformer.onSuccess(response);
-  }
-  return responseTransformer.onError('Reservas conflitantes');
+		const response = await reservationRepository.createReservation(params);
+		return responseTransformer.onSuccess(response);
+	}
+	return responseTransformer.onError('Reservas conflitantes');
 };
 
 /* cancelReservation
@@ -42,37 +40,36 @@ const createReservation = async (input) => {
 4- Return new object
 */
 const cancelReservation = async (input) => {
-  const whereParams = {
-    userUid: input.userUid,
-    hotelUid: input.hotelUid,
-    fromDate: momentTz(input.fromDate).utc(),
-    toDate: momentTz(input.toDate).utc(),
-    active: true,
-  };
+	const whereParams = {
+		userUid: input.userUid,
+		hotelUid: input.hotelUid,
+		fromDate: momentTz(input.fromDate).utc(),
+		toDate: momentTz(input.toDate).utc(),
+		active: true,
+	};
 
-  const reservation = await reservationRepository.getReservation(whereParams);
+	const reservation = await reservationRepository.getReservation(whereParams);
 
-  if (!reservation)
-    return responseTransformer.onError('Essa reserva nao foi encontrada');
+	if (!reservation)
+		return responseTransformer.onError('Essa reserva nao foi encontrada');
 
-  const cancelParams = {
-    active: false,
-    updatedAt: momentTz().utc(),
-  };
+	const cancelParams = {
+		active: false,
+	};
 
-  const response = await reservationRepository.cancelReservation(
-    cancelParams,
-    whereParams
-  );
+	const response = await reservationRepository.cancelReservation(
+		cancelParams,
+		whereParams
+	);
 
-  const [rowsUpdated, [updatedBook]] = response;
-  if (rowsUpdated > 0) return responseTransformer.onSuccess(updatedBook);
-  return responseTransformer.onError(
-    'Ocorreu algum erro ao cancelar a reserva'
-  );
+	const [rowsUpdated, [updatedReservation]] = response;
+	if (rowsUpdated > 0) return responseTransformer.onSuccess(updatedReservation);
+	return responseTransformer.onError(
+		'Ocorreu algum erro ao cancelar a reserva'
+	);
 };
 
 module.exports = {
-  createReservation,
-  cancelReservation,
+	createReservation,
+	cancelReservation,
 };
