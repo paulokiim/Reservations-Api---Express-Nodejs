@@ -10,7 +10,7 @@ const responseTransformer = require('../../../utils/responseTransformer');
 */
 const create = async (input) => {
 	const checkReservation = {
-		hotelUid: input.hotelUid,
+		hotelUids: [input.hotelUid],
 		fromDate: momentTz(input.fromDate).utc(),
 		toDate: momentTz(input.toDate).utc(),
 		active: true,

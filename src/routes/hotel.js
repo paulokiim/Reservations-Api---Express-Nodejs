@@ -4,6 +4,6 @@ const { hotelController } = require('../controllers');
 const routes = express.Router();
 
 routes.post('/new', hotelController.create);
-routes.get('/all', hotelController.getAll);
+routes.get('/availables', hotelController.getAvailables);
 
 module.exports = routes;

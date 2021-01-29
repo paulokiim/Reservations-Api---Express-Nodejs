@@ -17,4 +17,5 @@ const getAll = (params) => {
 module.exports = {
 	create,
 	get,
+	getAll,
 };

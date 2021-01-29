@@ -10,12 +10,15 @@ const create = (params) => {
 const checkOverlap = (params) => {
 	return Reservation.findAll({
 		where: {
-			...params,
+			active: params.active,
 			fromDate: {
 				[Op.gte]: params.fromDate,
 			},
 			toDate: {
 				[Op.lte]: params.toDate,
+			},
+			hotelUid: {
+				[Op.in]: params.hotelUids,
 			},
 		},
 	});

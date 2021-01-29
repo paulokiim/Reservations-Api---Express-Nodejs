@@ -12,11 +12,11 @@ const create = async (req, res) => {
 	}
 };
 
-const getAll = async (req, res) => {
+const getAvailables = async (req, res) => {
 	const body = req.body;
 
 	try {
-		const response = await hotelBO.getAll(body);
+		const response = await hotelBO.getAvailables(body);
 
 		return res.status(response.status).send(response);
 	} catch (error) {
@@ -26,5 +26,5 @@ const getAll = async (req, res) => {
 
 module.exports = {
 	create,
-	getAll,
+	getAvailables,
 };
